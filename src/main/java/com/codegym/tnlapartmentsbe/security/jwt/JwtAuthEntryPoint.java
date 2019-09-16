@@ -8,7 +8,7 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import java.io.IOException;
 @Component
-public class JwtAuthenEntryPoint implements AuthenticationEntryPoint {
+public class JwtAuthEntryPoint implements AuthenticationEntryPoint {
     private static final long serialVersionUID = -7858869558953243875L;
     @Override
     public void commence(HttpServletRequest request, HttpServletResponse response,
