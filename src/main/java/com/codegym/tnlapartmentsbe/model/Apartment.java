@@ -23,10 +23,14 @@ public class Apartment {
 
     private String area;
 
+    @ManyToOne
+    @JoinColumn(name = "host_id")
+    private User user;
+
     public Apartment() {
     }
 
-    public Apartment(String name, String address, String numberOfRooms, String numberOfBathRooms, String description, String prize, String area) {
+    public Apartment(String name, String address, String numberOfRooms, String numberOfBathRooms, String description, String prize, String area, User user) {
         this.name = name;
         this.address = address;
         this.numberOfRooms = numberOfRooms;
@@ -34,6 +38,7 @@ public class Apartment {
         this.description = description;
         this.prize = prize;
         this.area = area;
+        this.user = user;
     }
 
     public Long getId() {
@@ -98,5 +103,13 @@ public class Apartment {
 
     public void setArea(String area) {
         this.area = area;
+    }
+
+    public User getUser() {
+        return user;
+    }
+
+    public void setUser(User user) {
+        this.user = user;
     }
 }
