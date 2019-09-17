@@ -111,6 +111,51 @@ public class ApartmentController {
         return new ResponseEntity<StandardResponse>(new StandardResponse(true, "list all order", apartmentOrders), HttpStatus.OK);
     }
 
+    @RequestMapping(value = "/statusApartment/{apartmentId}", method = RequestMethod.GET)
+    private ResponseEntity<StandardResponse> listStatusHouse(@PathVariable Long apartmentId) {
+        List<ApartmentStatus> apartmentStatuses = this.apartmentStatusService.findAllByApartmentId(apartmentId);
+
+        if (apartmentStatuses.isEmpty()) {
+            return new ResponseEntity<StandardResponse>(
+                    new StandardResponse(true, "Successfully but not found data", null),
+                    HttpStatus.NOT_FOUND);
+        }
+
+        return new ResponseEntity<StandardResponse>(
+                new StandardResponse(true, "Successfully. Get list status houses", apartmentStatuses),
+                HttpStatus.OK);
+    }
+
+    @RequestMapping(value = "/comments/{apartmentId}", method = RequestMethod.GET)
+    public ResponseEntity<StandardResponse> listCommentsByHouseId(@PathVariable Long apartmentId) {
+        List<Comment> comments = this.commentService.findAllByApartmentId(apartmentId);
+
+        if (comments.isEmpty()) {
+            return new ResponseEntity<StandardResponse>(
+                    new StandardResponse(false, "Fail. Not found data", null),
+                    HttpStatus.OK);
+        }
+
+        return new ResponseEntity<StandardResponse>(
+                new StandardResponse(true, "Successfully. Get list comments that was booked by guest", comments),
+                HttpStatus.OK);
+    }
+
+    @RequestMapping(value = "/rates/{apartmentId}", method = RequestMethod.GET)
+    public ResponseEntity<StandardResponse> listRatesByHouseId(@PathVariable Long apartmentId) {
+        List<Rate> rates = this.rateService.findAllByApartmentId(apartmentId);
+
+        if (rates.isEmpty()) {
+            return new ResponseEntity<StandardResponse>(
+                    new StandardResponse(false, "Fail. Not found data", null),
+                    HttpStatus.OK);
+        }
+
+        return new ResponseEntity<StandardResponse>(
+                new StandardResponse(true, "Successfully. Get list comment that was booked by guest", rates),
+                HttpStatus.OK);
+    }
+
 
 
 
