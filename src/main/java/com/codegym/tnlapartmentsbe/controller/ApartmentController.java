@@ -105,6 +105,12 @@ public class ApartmentController {
                 HttpStatus.CREATED);
     }
 
+    @RequestMapping(value = "/apartment/all-user-order", method = RequestMethod.GET)
+    public ResponseEntity<StandardResponse> allUserOder() {
+        List<ApartmentOrders> apartmentOrders = apartmentOrdersService.findAll();
+        return new ResponseEntity<StandardResponse>(new StandardResponse(true, "list all order", apartmentOrders), HttpStatus.OK);
+    }
+
 
 
 
