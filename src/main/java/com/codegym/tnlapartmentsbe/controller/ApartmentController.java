@@ -15,8 +15,8 @@ import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
 
-@CrossOrigin(origins = "*")
 @RestController
+@CrossOrigin(origins = "*")
 @RequestMapping("/api")
 public class ApartmentController {
     @Autowired
@@ -33,44 +33,53 @@ public class ApartmentController {
     private RateService rateService;
     @Autowired
     private ApartmentStatusService apartmentStatusService;
-    private UserPrinciple getCurrentUser(){
+
+    private UserPrinciple getCurrentUser() {
         return (UserPrinciple) SecurityContextHolder.getContext().getAuthentication().getPrincipal();
+
     }
 
-    @RequestMapping( value = "/apartments", method = RequestMethod.GET, produces = MediaType.APPLICATION_JSON_UTF8_VALUE)
-    public ResponseEntity<StandardResponse> listApartments(){
+    @RequestMapping(value = "/apartment", method = RequestMethod.GET, produces = MediaType.APPLICATION_JSON_UTF8_VALUE)
+    public ResponseEntity<StandardResponse> listAllApartments() {
         List<Apartment> apartments = this.apartmentService.findAll();
-        if (apartments.isEmpty()){
+
+        if (apartments.isEmpty()) {
             return new ResponseEntity<StandardResponse>(
-                    new StandardResponse(false, "Not found Apartment", null),
-                    HttpStatus.OK
-            );
+                    new StandardResponse(false, "Fail. Not found data", null),
+                    HttpStatus.OK);
         }
-        for (Apartment apartment: apartments){
+
+        for (Apartment apartment : apartments) {
             List<String> listImageUrlOfApartment = imagesOfApartmentService.getListImageUrlOfApartmentByApartmentId(apartment.getId());
             apartment.setImageUrls(listImageUrlOfApartment);
             List<ApartmentOrders> apartmentOrders = apartmentOrdersService.findApartmentOrdersByApartmentId(apartment.getId());
             apartment.setApartmentOrders(apartmentOrders);
         }
+
         return new ResponseEntity<StandardResponse>(
                 new StandardResponse(true, "Successfully. Get list all apartments", apartments),
                 HttpStatus.OK);
     }
-    @RequestMapping(value = "/apartments/{id}", method = RequestMethod.GET)
-    public ResponseEntity<StandardResponse> getApartment(@PathVariable Long id){
-        Apartment apartment = apartmentService.findById(id);
 
+    @RequestMapping(value = "apartment/{id}", method = RequestMethod.GET)
+    public ResponseEntity<StandardResponse> getApartmentDetails(@PathVariable Long id){
+        Apartment apartment = apartmentService.findById(id);
         if (apartment == null){
             return new ResponseEntity<StandardResponse>(
-                    new StandardResponse(false, "Fail. Not found apartment", null),
-                    HttpStatus.OK);
+                    new StandardResponse(false, "fail, not found apartment", null),
+                    HttpStatus.OK
+            );
         }
-        List<String> listImageUrlOfApartment = imagesOfApartmentService.getListImageUrlOfApartmentByApartmentId(apartment.getId());
-        apartment.setImageUrls(listImageUrlOfApartment);
+        List<String> imageUrlOfApartment = imagesOfApartmentService.getListImageUrlOfApartmentByApartmentId(apartment.getId());
+        apartment.setImageUrls(imageUrlOfApartment);
         return new ResponseEntity<StandardResponse>(
-                new StandardResponse(true, "Successfully. Get apartment details", apartment),
+                new StandardResponse(true, "Apartment Details", apartment),
                 HttpStatus.OK);
-
     }
+
+
+
+
+
 
 }
