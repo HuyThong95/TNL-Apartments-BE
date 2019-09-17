@@ -1,9 +1,7 @@
 package com.codegym.tnlapartmentsbe.controller;
 
 import com.codegym.tnlapartmentsbe.form.response.StandardResponse;
-import com.codegym.tnlapartmentsbe.model.Apartment;
-import com.codegym.tnlapartmentsbe.model.ApartmentOrders;
-import com.codegym.tnlapartmentsbe.model.ImagesOfApartment;
+import com.codegym.tnlapartmentsbe.model.*;
 import com.codegym.tnlapartmentsbe.security.service.UserPrinciple;
 import com.codegym.tnlapartmentsbe.service.*;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -75,6 +73,36 @@ public class ApartmentController {
         return new ResponseEntity<StandardResponse>(
                 new StandardResponse(true, "Apartment Details", apartment),
                 HttpStatus.OK);
+    }
+    @RequestMapping(value = "/apartments/{id}/booking", method = RequestMethod.POST)
+    public ResponseEntity<StandardResponse> bookingApartment(@PathVariable Long id, @RequestBody ApartmentOrders apartmentOrders) {
+        boolean isBooked =
+                apartmentOrdersService.existsApartmentOrdersByCheckinGreaterThanEqualAndCheckinLessThanEqualAndApartmentId(
+                        apartmentOrders.getCheckin(), apartmentOrders.getCheckout(), id)
+                        || apartmentOrdersService.existsApartmentOrdersByCheckoutGreaterThanEqualAndCheckoutLessThanEqualAndApartmentId(
+                        apartmentOrders.getCheckin(), apartmentOrders.getCheckout(), id)
+                        || apartmentOrdersService.existsApartmentOrdersByCheckinGreaterThanEqualAndCheckoutLessThanEqualAndApartmentId(
+                        apartmentOrders.getCheckin(), apartmentOrders.getCheckout(), id)
+                        || apartmentOrdersService.existsApartmentOrdersByCheckinLessThanEqualAndCheckoutGreaterThanEqualAndApartmentId(
+                        apartmentOrders.getCheckin(), apartmentOrders.getCheckout(), id)
+                        || apartmentOrdersService.existsApartmentStatusByEndDateGreaterThanEqualAndEndDateLessThanEqual(apartmentOrders.getCheckin(), apartmentOrders.getCheckout(), id)
+                        || apartmentOrdersService.existsApartmentStatusByStartDateGreaterThanEqualAndEndDateLessThanEqual(apartmentOrders.getCheckin(), apartmentOrders.getCheckout(), id)
+                        || apartmentOrdersService.existsApartmentStatusByStartDateGreaterThanEqualAndStartDateLessThanEqual(apartmentOrders.getCheckin(), apartmentOrders.getCheckout(), id)
+                        || apartmentOrdersService.existsApartmentStatusByStartDateLessThanEqualAndEndDateGreaterThanEqual(apartmentOrders.getCheckin(), apartmentOrders.getCheckout(), id);
+        if (isBooked) {
+            return new ResponseEntity<StandardResponse>(
+                    new StandardResponse(false, "Ngày này nhà đã được đặt. Bạn vui lòng đặt vào ngày khác", null),
+                    HttpStatus.OK);
+        }
+        Apartment apartment = apartmentService.findById(id);
+        apartmentOrders.setApartment(apartment);
+        User tenant = userService.findById(getCurrentUser().getId());
+        apartmentOrders.setTenant(tenant);
+        apartmentOrders.setStatusOrder(StatusOrder.PROCESSING);
+        apartmentOrdersService.createApartmentOrders(apartmentOrders);
+        return new ResponseEntity<StandardResponse>(
+                new StandardResponse(true, "Đặt nhà thành công", null),
+                HttpStatus.CREATED);
     }
 
 
