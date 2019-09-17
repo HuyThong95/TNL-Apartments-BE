@@ -85,7 +85,7 @@ public class SignUpController {
         userRepository.save(user);
 
         return new ResponseEntity<StandardResponse>(
-                new StandardResponse(true,"User registered with ROLE_GUEST successfully!",null),
+                new StandardResponse(true,"User registered with GUEST successfully!",null),
                 HttpStatus.OK);
     }
 }
