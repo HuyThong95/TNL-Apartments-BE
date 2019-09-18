@@ -89,6 +89,4 @@ public class UserController {
             return new ResponseEntity<StandardResponse>(new StandardResponse(false, "confirm fail", null), HttpStatus.NOT_FOUND);
         }
     }
-
-
 }
