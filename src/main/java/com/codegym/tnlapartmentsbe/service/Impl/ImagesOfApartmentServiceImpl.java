@@ -4,10 +4,12 @@ import com.codegym.tnlapartmentsbe.model.ImagesOfApartment;
 import com.codegym.tnlapartmentsbe.repository.ImagesOfApartmentRepository;
 import com.codegym.tnlapartmentsbe.service.ImagesOfApartmentService;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Service;
 
 import java.util.ArrayList;
 import java.util.List;
 
+@Service
 public class ImagesOfApartmentServiceImpl implements ImagesOfApartmentService {
     @Autowired
     private ImagesOfApartmentRepository imagesOfApartmentRepository;
