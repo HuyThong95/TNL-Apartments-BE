@@ -18,10 +18,10 @@ public class JwtTokenUtil implements Serializable {
     //chua biet tac dung de lam gi
     private static final long serialVersionUID = -2550185165626007488L;
 
-    @Value("${jwt.secret}")
+    @Value("ThongNghiaLuan")
     private String secret;
 
-    @Value("${jwt.expiration}")
+    @Value("86400}")
     private int expiration;
 
     //get usename from jwt token
@@ -63,20 +63,8 @@ public class JwtTokenUtil implements Serializable {
                 .compact();
     }
 
-    //while creating the token -
-    //1. Define  claims of the token, like Issuer, Expiration, Subject, and the ID
-    //2. Sign the JWT using the HS512 algorithm and secret key.
-    //3. According to JWS Compact Serialization(https://tools.ietf.org/html/draft-ietf-jose-json-web-signature-41#section-3.1)
-    //   compaction of the JWT to a URL-safe string
-//    private String doGenerateToken(Map<String, Object> claims, String subject) {
-//        return Jwts.builder().setClaims(claims).setSubject(subject).setIssuedAt(new Date(System.currentTimeMillis()))
-//                .setExpiration(new Date(System.currentTimeMillis() + expiration * 1000))
-//                .signWith(SignatureAlgorithm.HS512, secret).compact();
-//    }
     //validate token
     public Boolean validateToken(String token) {
-//        final String username = getUsernameFromToken(token);
-//        return (username.equals(userDetails.getUsername()) && !isTokenExpired(token));
 
         try {
             Jwts.parser().setSigningKey(secret).parseClaimsJws(token);
