@@ -37,7 +37,7 @@ public class ApartmentController {
 
     }
 
-    @RequestMapping(value = "/apartment", method = RequestMethod.GET, produces = MediaType.APPLICATION_JSON_UTF8_VALUE)
+    @RequestMapping(value = "/apartments", method = RequestMethod.GET, produces = MediaType.APPLICATION_JSON_UTF8_VALUE)
     public ResponseEntity<StandardResponse> listAllApartments() {
         List<Apartment> apartments = this.apartmentService.findAll();
 
@@ -59,7 +59,7 @@ public class ApartmentController {
                 HttpStatus.OK);
     }
 
-    @RequestMapping(value = "apartment/{id}", method = RequestMethod.GET)
+    @RequestMapping(value = "apartments/{id}", method = RequestMethod.GET)
     public ResponseEntity<StandardResponse> getApartmentDetails(@PathVariable Long id){
         Apartment apartment = apartmentService.findById(id);
         if (apartment == null){
@@ -105,13 +105,13 @@ public class ApartmentController {
                 HttpStatus.CREATED);
     }
 
-    @RequestMapping(value = "/apartment/all-user-order", method = RequestMethod.GET)
+    @RequestMapping(value = "/apartments/all-user-order", method = RequestMethod.GET)
     public ResponseEntity<StandardResponse> allUserOder() {
         List<ApartmentOrders> apartmentOrders = apartmentOrdersService.findAll();
         return new ResponseEntity<StandardResponse>(new StandardResponse(true, "list all order", apartmentOrders), HttpStatus.OK);
     }
 
-    @RequestMapping(value = "/statusApartment/{apartmentId}", method = RequestMethod.GET)
+    @RequestMapping(value = "/ApartmentStatus/{apartmentId}", method = RequestMethod.GET)
     private ResponseEntity<StandardResponse> listStatusHouse(@PathVariable Long apartmentId) {
         List<ApartmentStatus> apartmentStatuses = this.apartmentStatusService.findAllByApartmentId(apartmentId);
 
