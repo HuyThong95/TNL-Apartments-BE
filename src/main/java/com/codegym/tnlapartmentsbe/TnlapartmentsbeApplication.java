@@ -20,9 +20,9 @@ public class TnlapartmentsbeApplication extends SpringBootServletInitializer {
         return builder.sources(TnlapartmentsbeApplication.class);
     }
 
-    @Bean
-    public ApartmentStatusService statusHouseService(){
-        return  new ApartmentStatusServiceImpl();
-    }
+    //@Bean
+//    public ApartmentStatusService statusHouseService(){
+//        return  new ApartmentStatusServiceImpl();
+//    }
 
 }

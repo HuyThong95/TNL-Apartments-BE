@@ -21,7 +21,7 @@ public class JwtTokenUtil implements Serializable {
     @Value("ThongNghiaLuan")
     private String secret;
 
-    @Value("86400}")
+    @Value("86400")
     private int expiration;
 
     //get usename from jwt token
