@@ -22,9 +22,11 @@ public class Apartment {
     @Column(columnDefinition = "long")
     private String description;
 
-    private String prize;
+    private String price;
 
     private String area;
+
+    private String rate;
 
     @ManyToOne
     @JoinColumn(name = "host_id")
@@ -53,19 +55,21 @@ public class Apartment {
                      String numberOfRooms,
                      String numberOfBathRooms,
                      String description,
-                     String prize,
+                     String price,
                      String area,
                      User user,
-                     Status status) {
+                     Status status,
+                     String rate) {
         this.name = name;
         this.address = address;
         this.numberOfRooms = numberOfRooms;
         this.numberOfBathRooms = numberOfBathRooms;
         this.description = description;
-        this.prize = prize;
+        this.price = price;
         this.area = area;
         this.user = user;
         this.status = status;
+        this.rate = rate;
 
     }
 
@@ -117,12 +121,12 @@ public class Apartment {
         this.description = description;
     }
 
-    public String getPrize() {
-        return prize;
+    public String getPrice() {
+        return price;
     }
 
-    public void setPrize(String prize) {
-        this.prize = prize;
+    public void setPrice(String price) {
+        this.price = price;
     }
 
     public String getArea() {
@@ -171,5 +175,13 @@ public class Apartment {
 
     public void setStatus(Status status) {
         this.status = status;
+    }
+
+    public String getRate() {
+        return rate;
+    }
+
+    public void setRate(String rate) {
+        this.rate = rate;
     }
 }
